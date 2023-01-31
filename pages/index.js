@@ -1,11 +1,10 @@
 import Head from 'next/head'
-import Image from 'next/image'
-// import styles from '@/styles/Home.module.css'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
-import axios from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import ForgetPassModal from '../Components/ForgetPassModal'
+import Api from '../Api'
 
 // import { loginAPI } from '@/services'
 
@@ -16,14 +15,15 @@ export default function Home() {
 
   const [showPassword, setshowPassword] = useState(false)
 
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
 
   const onSubmit = async data => {
     try {
-      const { data: { msg, token, success } } = await loginAPI(data);
+      const { data: { msg, token, success } } = await Api("post", "/login", data);
       alert(msg)
       if (success) {
+        console.log(token)
         localStorage.setItem("token", token)
         router.push("/dashboard")
       }
@@ -82,17 +82,24 @@ export default function Home() {
           </div>
 
           <div className='mb-3 text-end '>
-            <p className='cursor-pointer'>Forget Password ?</p>
+            <p style={{ cursor: "pointer" }} data-bs-toggle="modal" data-bs-target="#forgetpasmodal">Forgot Password ?</p>
           </div>
 
           <div className='d-flex justify-content-between'>
-            <button type="submit" class="btn btn-primary">Login</button>
+            <button type="submit" class="btn btn-primary" >Login</button>
             <Link href="/register" class="btn btn-success">Register</Link>
 
           </div>
 
         </form>
       </section>
+
+
+      <div class="modal fade" id="forgetpasmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <ForgetPassModal />
+      </div>
+
+
 
 
     </>

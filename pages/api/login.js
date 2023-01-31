@@ -1,10 +1,13 @@
 
-const jwt = require("jsonwebtoken")
-const connect = require("../../utils/db")
+
+const connect = require("../../utils/db");
+const ApiAuth = require("../../Authentication/ApiAuth")
+const { LoginUserController } = require("../../Controllers/User.Controller")
+
+
 
 connect()
 
-const  {LoginUserController} = require("../../Controllers/User.Controller")
 
 
 const login = async (req, res) => {
@@ -18,13 +21,14 @@ const login = async (req, res) => {
             break;
 
         default:
+            res.status(504).json({ msg: "Invalid Method", })
             break;
     }
 
 
-    // const createToken = jwt.sign(req.body, "SECRET_TOKEN", { expiresIn: "5m" })
-    // console.log(createToken)
-    // res.status(200).json({ msg: 'Login SucccessFully', token: createToken, success: true })
+ 
 }
 
+// export default ApiAuth(login)
 export default login
+

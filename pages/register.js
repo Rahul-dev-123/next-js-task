@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import Api from '../Api'
 
 const register = () => {
 
@@ -26,7 +27,7 @@ const register = () => {
             delete data.confirmpassword
 
             try {
-                const { data: { msg, token, success } } = await axios.post("/api/register", data);
+                const { data: { msg, token, success } } = await Api("post", "/register", data);
                 alert(msg)
                 if (success) {
                     localStorage.setItem("token", token)
