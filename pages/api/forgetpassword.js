@@ -1,6 +1,8 @@
 
+const connect = require("../../utils/db");
 const {SendMailController, } = require("../../Controllers/ForgetPass.Controller")
 
+connect()
 export default async function handler(req, res) {
 
     const { method, body : {email} } = req;
